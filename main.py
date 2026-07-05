@@ -3,13 +3,14 @@ from exporter import export_transactions
 from models import Transaction
 from parser import parse_csv_files, parse_excel
 
-from rules import Rules, filter_by_month
+from rules import Rules, filter_by_month, validate_label
 from tui.CSVCategorizer import CsvCategorizer
 from tui.ExtracMonth import MonthSelectorApp
 from tui.existing import continue_with_existing
 
 def main():
     existing_transactions:list[Transaction] = parse_excel('transactions.xlsx')
+    validate_label()
 
     transactions:list[Transaction] = []
     if continue_with_existing(existing_transactions):

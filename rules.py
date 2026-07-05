@@ -1,9 +1,18 @@
+import os
 from typing import List, Dict, Any
 
 from models import Transaction
 import json
 from pathlib import Path
 import re
+
+# Alternative solution is to create the file instead of error,
+# then ask the user for the input.
+def validate_label():
+  if not os.path.exists("income_labels.json"):
+    raise FileNotFoundError("Could not find income_labels.json")
+  if not os.path.exists("cost_labels.json"):
+    raise FileNotFoundError("Could not find cost_labels.json")
 
 
 class Rules:

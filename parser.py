@@ -1,6 +1,7 @@
 from models import Transaction
 import pandas as pd
 from typing import Dict, List
+import os
 
 def parse_csv_files(csv_files:Dict[str, str]) -> List[Transaction]:
     """Parse a list of CSV files."""
@@ -16,6 +17,9 @@ def parse_excel(file_path: str) -> list[Transaction]:
     """
     Parse an Excel file and returns a list of Transaction objects.
     """
+    if not os.path.exists(file_path):
+        return []
+
     df = pd.read_excel(file_path)
     
     # Fill any empty (NaN) cells with empty strings/0 to avoid errors

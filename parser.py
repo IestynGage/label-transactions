@@ -68,10 +68,7 @@ def load_transactions(csv_path: str, account_type:str) -> List[Transaction]:
 
     transactions = []
 
-
-    print(account_type)
     normalize_value =  -1 if account_type.lower().strip() == "credit" else 1
-    print(normalize_value)
     for _, row in df.iterrows():
         transaction = Transaction(
             date=row["Date"],

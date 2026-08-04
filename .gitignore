@@ -1,5 +1,11 @@
-*.csv
 *.pyc
 spending.xlsx
-*labels.json
 __pycache__
+
+# Ensure I don't commit any personal financial files
+## Excel
+*.xlsx
+## CSV
+*.csv
+## Financial labels
+*labels.json

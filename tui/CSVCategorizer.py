@@ -21,7 +21,7 @@ class CsvCategorizer(App):
     """
 
     BINDINGS = [
-        ("c", "mark_credit", "Mark as Credit"),
+        ("r", "mark_credit", "Mark as Credit"),
         ("u", "mark_current", "Mark as Current"),
         ("n", "next", "Next"),
         ("q", "quit", "Quit Without Saving"),

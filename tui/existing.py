@@ -3,18 +3,29 @@ from typing import List
 from models import Transaction
 
 
-def continue_with_existing(transactions: List[Transaction]) -> bool:
-  if not transactions or len(transactions) == 0:
-    return False
+from typing import List, Literal
 
-  month = transactions[0].date.split()[1]
-  total_transactions = len(transactions)
-  transactions_with_label = sum(1 for t in transactions if t.label)
+def continue_with_existing(transactions: List[Transaction]) -> Literal["re-label", "re-process", "new", "cancel"]:
+    if not transactions:
+        return "new"
 
-  print(f"\nFound {total_transactions} transactions for {month} ({transactions_with_label} labelled).")
-  user_choice = input("Do you wish to continue? [y/N]: ").strip().lower()
+    month = transactions[0].date.split()[1]
+    total_transactions = len(transactions)
+    transactions_with_label = sum(1 for t in transactions if t.label)
 
-  if user_choice in ['y', 'yes']:
-      return True
+    print(f"\nFound {total_transactions} transactions for {month} ({transactions_with_label} labelled).")
+    print("1. Re-label transactions")
+    print("2. Re-process transactions")
+    print("3. Start fresh (New)")
+    print("4. Cancel")
+    
+    user_choice = input("Select an option (1-4): ").strip()
 
-  return False
+    if user_choice == "1":
+        return "re-label"
+    elif user_choice == "2":
+        return "re-process"
+    elif user_choice == "3":
+        return "new"
+    else:
+        return "cancel"

@@ -11,13 +11,13 @@ def label_files(tmp_path, monkeypatch):
     """Create temporary label JSON files"""
 
     income = [
-        {"regex": "salary", "label": "Income"},
-        {"regex": "bonus", "label": "Bonus"},
+        {"regex": ["salary"], "label": "Income"},
+        {"regex": ["bonus"], "label": "Bonus"},
     ]
 
     costs = [
-        {"regex": "coffee", "label": "Food"},
-        {"regex": "uber", "label": "Transport"},
+        {"regex": ["coffee"], "label": "Food"},
+        {"regex": ["uber"], "label": "Transport"},
     ]
 
     income_file = tmp_path / "income_labels.json"
@@ -34,15 +34,27 @@ def label_files(tmp_path, monkeypatch):
 def test_load_labels(label_files):
     rules = Rules()
 
-    assert rules.income_labels == {
-        "salary": "Income",
-        "bonus": "Bonus",
-    }
+    assert rules.income_labels == [ 
+        {
+            "label": "Income",
+            "regex" : [ "salary" ]
+        },
+        {
+            "label": "Bonus",
+            "regex" : [ "bonus" ]
+        }
+     ]
 
-    assert rules.cost_labels == {
-        "coffee": "Food",
-        "uber": "Transport",
-    }
+    assert rules.cost_labels == [ 
+        {
+            "label": "Food",
+            "regex" : [ "coffee" ]
+        },
+        {
+            "label": "Transport",
+            "regex" : ["uber"]
+        }
+    ]
 
 
 def test_load_labels_missing_file(tmp_path, monkeypatch):
@@ -134,38 +146,17 @@ def test_apply_zero_value_uses_cost_rules(label_files):
 
     result = rules.apply([tx])
 
+    print(rules.cost_labels)
     assert result[0].label == "Transport"
 
 
 def test_apply_label_first_match_wins(label_files):
     rules = Rules()
 
-    rules.cost_labels = {
-        "coffee": "Food",
-        "coffee shop": "Cafe",
-    }
-
-    tx = Transaction(
-        "2026-01-01",
-        "coffee shop",
-        -5,
-        "checking",
-        "",
-        "",
-    )
-
-    result = rules.apply([tx])
-
-    assert result[0].label == "Food"
-
-
-def test_apply_label_first_match_wins(label_files):
-    rules = Rules()
-
-    rules.cost_labels = {
-        "coffee": "Food",
-        "coffee shop": "Cafe",
-    }
+    rules.cost_labels =  [
+        {'regex': ['coffee'], 'label': 'Food'}, 
+        {'regex': ['coffee shop'], 'label': 'Cafe'}
+    ]
 
     tx = Transaction(
         "2026-01-01",

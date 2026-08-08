@@ -5,7 +5,7 @@ class Transaction:
     self.date = date
     self.desc = desc
     self.value = value
-    self.account_type = value
+    self.account_type = account_type
     self.label = label
     self.transactionType = transactionType  # empty string for now
 

@@ -14,8 +14,8 @@ def continue_with_existing(transactions: List[Transaction]) -> Literal["re-label
     transactions_with_label = sum(1 for t in transactions if t.label)
 
     print(f"\nFound {total_transactions} transactions for {month} ({transactions_with_label} labelled).")
-    print("1. Re-label transactions")
-    print("2. Re-process transactions")
+    print("1. Add missing labels")
+    print("2. Re-process csv transactions")
     print("3. Start fresh (New)")
     print("4. Cancel")
     
